@@ -10,16 +10,27 @@ interface BreedApiService {
     fun fetchDogBreeds(): Call<BreedApiResponse>
 
     @GET("/api/breed/{breed}/list")
-    fun fetchDogSubBreeds(@Path("breed") breed: String): Call<BreedApiResponse>
+    fun fetchDogSubBreeds(@Path("breed") breed: String): Call<BreedListApiResponse>
 
     @GET("/api/breed/{breed}/images")
-    fun fetchDogBreedImages(@Path("breed") breed: String): Call<BreedApiResponse>
+    fun fetchDogBreedImages(@Path("breed") breed: String): Call<BreedListApiResponse>
 
     @GET("/api/breed/{breed}/{subbreed}/images")
     fun fetchDogSubBreedImages(
         @Path("breed") breed: String,
         @Path("subbreed") subbreed: String
-    ): Call<BreedApiResponse>
+    ): Call<BreedListApiResponse>
+
+    @GET("/api/breed/{breed}/images/random")
+    fun fetchBreedImage(
+        @Path("breed") breed: String
+    ): Call<BreedImageResponse>
+
+    @GET("/api/breed/{breed}/{subbreed}/images/random")
+    fun fetchSubBreedImage(
+        @Path("breed") breed: String,
+        @Path("subbreed") subbreed: String
+    ): Call<BreedImageResponse>
 
 
 }

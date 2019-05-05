@@ -4,38 +4,38 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.cabo.dogbreeds.data.local.remote.ApiBuilder
-import com.cabo.dogbreeds.data.local.remote.BreedApiResponse
-import com.cabo.dogbreeds.data.local.remote.BreedApiService
-import com.google.android.material.snackbar.Snackbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.cabo.dogbreeds.data.local.entity.BreedEntity
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val api = ApiBuilder.buildService(BreedApiService::class.java)
+    lateinit var breedViewModel: BreedViewModel
+    val breedAdapter = BreedAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        breedViewModel = ViewModelProviders.of(this).get(BreedViewModel::class.java)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        with(recycler_view) {
+            //layoutManager = LinearLayoutManager(context)
+            layoutManager = GridLayoutManager(context, 1) as RecyclerView.LayoutManager
+            adapter = breedAdapter
         }
-        api.fetchDogBreeds().enqueue(object : Callback<BreedApiResponse> {
-            override fun onResponse(call: Call<BreedApiResponse>, response: Response<BreedApiResponse>) {
 
-            }
-
-            override fun onFailure(call: Call<BreedApiResponse>, t: Throwable) {
-
-            }
-        })
+        breedViewModel.allBreeds.observe(this,
+            Observer<List<BreedEntity>> {
+                breedAdapter.breeds = it
+            })
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
