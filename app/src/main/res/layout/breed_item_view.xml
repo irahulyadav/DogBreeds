@@ -1,33 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="250dp"
-             android:orientation="horizontal">
+<layout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivImage"
+    <data>
+
+        <variable
+                name="breed"
+                type="com.cabo.dogbreeds.data.local.entity.BreedEntity"/>
+
+    </data>
+
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"/>
+            android:layout_height="250dp"
+            android:orientation="horizontal">
 
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.5"
-            android:background="@color/colorPrimary"/>
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                app:imageUrl="@{breed.image}"
+                android:scaleType="centerCrop"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:alpha="0.5"
+              android:background="@color/colorPrimary"/>
 
 
-    <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:alpha="0.9"
-            android:fontFamily="@font/aladin"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="#ffffff"
-            android:textSize="20sp"/>
-</FrameLayout>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:alpha="0.9"
+                android:text="@{breed.breed}"
+                android:fontFamily="@font/aladin"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="#ffffff"
+                android:textSize="20sp"/>
+    </FrameLayout>
+
+</layout>

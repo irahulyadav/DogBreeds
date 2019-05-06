@@ -1,15 +1,18 @@
 package com.cabo.dogbreeds
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
+import com.cabo.dogbreeds.databinding.BreedItemViewBinding
+import com.cabo.dogbreeds.widget.BindingViewHolder
 import com.squareup.picasso.Picasso
 
-class BreedAdapter : RecyclerView.Adapter<BreedAdapter.BreedHolder>() {
+
+class BreedAdapter : RecyclerView.Adapter<BindingViewHolder<BreedItemViewBinding>>() {
 
     var breeds: List<BreedEntity> = arrayListOf()
         set(value) {
@@ -17,12 +20,19 @@ class BreedAdapter : RecyclerView.Adapter<BreedAdapter.BreedHolder>() {
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedHolder {
-        return BreedHolder(LayoutInflater.from(parent.context).inflate(R.layout.breed_item_view, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder<BreedItemViewBinding> {
+        return BindingViewHolder(
+            DataBindingUtil.inflate<BreedItemViewBinding>(
+                LayoutInflater.from(parent.context),
+                R.layout.breed_item_view,
+                parent,
+                false
+            ).root
+        )
     }
 
-    override fun onBindViewHolder(holder: BreedHolder, position: Int) {
-        holder.breedEntity = getItemCount(position)
+    override fun onBindViewHolder(holder: BindingViewHolder<BreedItemViewBinding>, position: Int) {
+        holder.binding.breed = getItemCount(position)
     }
 
     override fun getItemCount(): Int {
@@ -33,25 +43,11 @@ class BreedAdapter : RecyclerView.Adapter<BreedAdapter.BreedHolder>() {
         return breeds[position]
     }
 
-    class BreedHolder(view: View) : RecyclerView.ViewHolder(view) {
+}
 
-        val tvName = itemView.findViewById<TextView>(R.id.tvName)
-        val ivImage = itemView.findViewById<ImageView>(R.id.ivImage)
-
-        var breedEntity: BreedEntity? = null
-            set(value) {
-                field = value
-                if (value == null) {
-                    return
-                }
-                tvName.text = value.breed
-                if (value.image != null) {
-                    Picasso.get()
-                        .load(value.image)
-                        .into(ivImage)
-                }
-
-            }
-
-    }
+@BindingAdapter("imageUrl")
+fun ImageView.setImageUrl(imageUrl: String?) {
+    Picasso.get()
+        .load(imageUrl ?: "https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2018/2-dog.jpg")
+        .into(this)
 }
