@@ -51,7 +51,6 @@ class BreedRepository @Inject constructor(
     }
 
 
-
     override fun insertBreedEntity(list: List<BreedEntity>) {
         Companion.DaoTask<List<BreedEntity>>(action = {
             breedDao.insertBreedEntity(list)

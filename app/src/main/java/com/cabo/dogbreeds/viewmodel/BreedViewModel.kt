@@ -1,4 +1,4 @@
-package com.cabo.dogbreeds
+package com.cabo.dogbreeds.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

@@ -1,14 +1,16 @@
 package com.cabo.dogbreeds
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
 import com.cabo.dogbreeds.di.ViewModelFactory
+import com.cabo.dogbreeds.viewmodel.BreedViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
@@ -32,9 +34,15 @@ class MainActivity : AppCompatActivity() {
         breedAdapter = BreedAdapter(breedViewModel)
 
         with(recycler_view) {
-            //layoutManager = LinearLayoutManager(context)
-            layoutManager = GridLayoutManager(context, 1)
+            layoutManager = LinearLayoutManager(context)
+            //layoutManager = GridLayoutManager(context, 1)
             adapter = breedAdapter
+            addOnItemTouchListener(RecyclerItemClickListener(this@MainActivity) { parentView, childView, position ->
+                this@MainActivity.startActivity(
+                    Intent(this@MainActivity, ImageListActivity::class.java)
+                        .putExtra("breed", breedAdapter.getItemCount(position))
+                )
+            })
         }
 
         breedViewModel.breedLiveData.observe(

@@ -8,8 +8,6 @@ import androidx.room.Entity
 data class BreedEntity(val breed: String) : Parcelable {
 
     var image: String? = null
-//    @ColumnInfo(name = "subBreed")
-//    var subBreed: List<String> = java.util.ArrayList()
 
     constructor(parcel: Parcel) : this(parcel.readString() ?: "") {
         image = parcel.readString()

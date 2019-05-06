@@ -9,6 +9,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
 import com.cabo.dogbreeds.databinding.BreedItemViewBinding
+import com.cabo.dogbreeds.viewmodel.BreedViewModel
 import com.cabo.dogbreeds.widget.BindingViewHolder
 import com.squareup.picasso.Picasso
 
