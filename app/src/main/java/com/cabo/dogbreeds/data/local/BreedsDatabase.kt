@@ -56,9 +56,9 @@ abstract class BreedsDatabase : RoomDatabase() {
                     val breedDao = INSTANCE?.breedDao()
                     if (breedDao != null) {
                         // affenpinscher=[], african=[], airedale=[]
-                        breedDao.insertBreedEntity(BreedEntity("affenpinscher"))
-                        breedDao.insertBreedEntity(BreedEntity("african"))
-                        breedDao.insertBreedEntity(BreedEntity("airedale"))
+//                        breedDao.insertBreedEntity(BreedEntity("affenpinscher"))
+//                        breedDao.insertBreedEntity(BreedEntity("african"))
+//                        breedDao.insertBreedEntity(BreedEntity("airedale"))
                     }
                 }).execute()
             }
