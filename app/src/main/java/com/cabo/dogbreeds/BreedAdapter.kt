@@ -33,7 +33,6 @@ class BreedAdapter : RecyclerView.Adapter<BreedAdapter.BreedHolder>() {
         return breeds[position]
     }
 
-
     class BreedHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val tvName = itemView.findViewById<TextView>(R.id.tvName)

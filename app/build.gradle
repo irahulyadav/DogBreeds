@@ -78,4 +78,14 @@ dependencies {
 
     /* Picasso lib for image loading  */
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    /* Dagger2  */
+    def daggerVer = 2.15 // or latest version
+
+    implementation "com.google.dagger:dagger:$daggerVer"
+    kapt  "com.google.dagger:dagger-compiler:$daggerVer"
+    implementation "com.google.dagger:dagger-android:$daggerVer"
+    kapt  "com.google.dagger:dagger-android-processor:$daggerVer"
+    implementation "com.google.dagger:dagger-android-support:$daggerVer"
+    kapt  "com.google.dagger:dagger-android-support:$daggerVer"
 }

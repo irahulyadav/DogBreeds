@@ -12,7 +12,8 @@ class ApiBuilder {
         val logger = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val okHttp = OkHttpClient.Builder().addInterceptor(logger)
+        val okHttp = OkHttpClient.Builder()
+            .addInterceptor(logger)
 
         private val builder = Retrofit.Builder()
             .baseUrl(URL)
