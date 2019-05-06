@@ -4,20 +4,26 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
-import com.cabo.dogbreeds.data.local.remote.ApiBuilder
 import com.cabo.dogbreeds.data.local.remote.BreedApiResponse
 import com.cabo.dogbreeds.data.local.remote.BreedApiService
 import com.cabo.dogbreeds.repository.BreedRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 import com.cabo.dogbreeds.data.local.dao.BreedProtocol as BreedProtocol1
 
-class BreedViewModel(application: Application) : AndroidViewModel(application), BreedProtocol1 {
-    private val api = ApiBuilder.buildService(BreedApiService::class.java)
+
+class BreedViewModel @Inject constructor(
+    application: Application,
+    val breedApiService: BreedApiService,
+    val breedRepository: BreedRepository
+) : AndroidViewModel(application), BreedProtocol1 {
+
 
     init {
-        api.fetchDogBreeds().enqueue(object : Callback<BreedApiResponse> {
+
+        breedApiService.fetchDogBreeds().enqueue(object : Callback<BreedApiResponse> {
             override fun onResponse(call: Call<BreedApiResponse>, response: Response<BreedApiResponse>) {
                 val list = arrayListOf<BreedEntity>()
                 response.body()?.message?.forEach { ket, _ ->
@@ -33,35 +39,34 @@ class BreedViewModel(application: Application) : AndroidViewModel(application), 
         })
     }
 
-    var repository = BreedRepository(application)
 
-    var allBreeds: LiveData<List<BreedEntity>> = repository.getBreedList()
+    var allBreeds: LiveData<List<BreedEntity>> = breedRepository.getBreedList()
 
     override fun insertBreedEntity(list: List<BreedEntity>) {
-        repository.insertBreedEntity(list)
+        breedRepository.insertBreedEntity(list)
     }
 
     override fun insertBreedEntity(entity: BreedEntity) {
-        repository.insertBreedEntity(entity)
+        breedRepository.insertBreedEntity(entity)
     }
 
     override fun flushBreedData() {
-        repository.flushBreedData()
+        breedRepository.flushBreedData()
     }
 
     override fun getBreedCount(): Int {
-        return repository.getBreedCount()
+        return breedRepository.getBreedCount()
     }
 
     override fun getBreedEntityByBreed(breed: String): LiveData<BreedEntity>? {
-        return repository.getBreedEntityByBreed(breed)
+        return breedRepository.getBreedEntityByBreed(breed)
     }
 
     override fun getBreedList(): LiveData<List<BreedEntity>> {
-        return repository.getBreedList()
+        return breedRepository.getBreedList()
     }
 
     override fun updateBreedEntity(entity: BreedEntity) {
-        repository.updateBreedEntity(entity)
+        breedRepository.updateBreedEntity(entity)
     }
 }

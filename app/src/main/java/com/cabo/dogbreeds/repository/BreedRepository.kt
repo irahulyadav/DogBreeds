@@ -3,19 +3,12 @@ package com.cabo.dogbreeds.repository
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
-import com.cabo.dogbreeds.data.local.BreedsDatabase
 import com.cabo.dogbreeds.data.local.dao.BreedDao
 import com.cabo.dogbreeds.data.local.dao.BreedProtocol
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
+import javax.inject.Inject
 
-class BreedRepository(application: Application) : BreedProtocol {
-
-    val breedDao: BreedDao
-
-    init {
-        val database = BreedsDatabase.getInstance(application) ?: throw Exception("Database not created")
-        breedDao = database.breedDao()
-    }
+class BreedRepository @Inject constructor(application: Application, val breedDao: BreedDao) : BreedProtocol {
 
     override fun insertBreedEntity(list: List<BreedEntity>) {
         Companion.DaoTask<List<BreedEntity>>(action = {

@@ -7,12 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
+import com.cabo.dogbreeds.di.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var breedViewModel: BreedViewModel
     val breedAdapter = BreedAdapter()
@@ -22,11 +26,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        breedViewModel = ViewModelProviders.of(this).get(BreedViewModel::class.java)
+        (application as MainApplication).appComponent.inject(this)
+        breedViewModel = ViewModelProviders.of(this, viewModelFactory).get(BreedViewModel::class.java)
 
         with(recycler_view) {
             //layoutManager = LinearLayoutManager(context)
-            layoutManager = GridLayoutManager(context, 1) as RecyclerView.LayoutManager
+            layoutManager = GridLayoutManager(context, 1)
             adapter = breedAdapter
         }
 

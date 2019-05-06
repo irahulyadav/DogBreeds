@@ -45,7 +45,7 @@ dependencies {
     /* Retrofit using RxJava2, Okhttp, Okhttp logging interceptor, Gson  */
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    //implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'
 
@@ -83,9 +83,10 @@ dependencies {
     def daggerVer = 2.15 // or latest version
 
     implementation "com.google.dagger:dagger:$daggerVer"
-    kapt  "com.google.dagger:dagger-compiler:$daggerVer"
-    implementation "com.google.dagger:dagger-android:$daggerVer"
-    kapt  "com.google.dagger:dagger-android-processor:$daggerVer"
-    implementation "com.google.dagger:dagger-android-support:$daggerVer"
-    kapt  "com.google.dagger:dagger-android-support:$daggerVer"
+    //kapt  "com.google.dagger:dagger-android-processor:$daggerVer"
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    implementation "com.google.dagger:dagger-android:2.22.1"
+    implementation "com.google.dagger:dagger-android-support:2.22.1"
+    kapt  "com.google.dagger:dagger-android-support:2.22.1"
 }
