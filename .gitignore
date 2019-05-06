@@ -4,4 +4,5 @@
 /gradlew
 /gradlew.bat
 /local.properties
-.gradle/
+/.gradle
+/.gradle/5.1.1

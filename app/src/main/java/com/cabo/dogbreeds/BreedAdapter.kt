@@ -43,11 +43,14 @@ class BreedAdapter : RecyclerView.Adapter<BindingViewHolder<BreedItemViewBinding
         return breeds[position]
     }
 
-}
+    companion object {
+        @JvmStatic
+        @BindingAdapter("imageUrl")
+        fun setImageUrl(imageView: ImageView, breedEntity: BreedEntity) {
+            Picasso.get()
+                .load(breedEntity.image ?: "https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2018/2-dog.jpg")
+                .into(imageView)
+        }
+    }
 
-@BindingAdapter("imageUrl")
-fun ImageView.setImageUrl(imageUrl: String?) {
-    Picasso.get()
-        .load(imageUrl ?: "https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2018/2-dog.jpg")
-        .into(this)
 }
