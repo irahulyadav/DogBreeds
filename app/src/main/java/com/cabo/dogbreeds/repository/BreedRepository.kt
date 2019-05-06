@@ -1,14 +1,56 @@
 package com.cabo.dogbreeds.repository
 
-import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.cabo.dogbreeds.data.local.dao.BreedDao
 import com.cabo.dogbreeds.data.local.dao.BreedProtocol
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
+import com.cabo.dogbreeds.data.local.remote.BreedApiResponse
+import com.cabo.dogbreeds.data.local.remote.BreedApiService
+import com.cabo.dogbreeds.data.local.remote.BreedImageResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
-class BreedRepository @Inject constructor(application: Application, val breedDao: BreedDao) : BreedProtocol {
+class BreedRepository @Inject constructor(
+    val breedDao: BreedDao,
+    val breedApiService: BreedApiService
+) : BreedProtocol {
+
+
+    init {
+
+        breedApiService.fetchDogBreeds().enqueue(object : Callback<BreedApiResponse> {
+            override fun onResponse(call: Call<BreedApiResponse>, response: Response<BreedApiResponse>) {
+                val list = arrayListOf<BreedEntity>()
+                response.body()?.message?.forEach { ket, _ ->
+                    list.add(BreedEntity(ket))
+                }
+                insertBreedEntity(list)
+            }
+
+            override fun onFailure(call: Call<BreedApiResponse>, t: Throwable) {
+
+            }
+        })
+    }
+
+    fun loadBreedImage(breedEntity: BreedEntity) {
+        breedApiService.fetchBreedImage(breedEntity.breed).enqueue(object : Callback<BreedImageResponse> {
+            override fun onResponse(call: Call<BreedImageResponse>, response: Response<BreedImageResponse>) {
+                breedEntity.image = response.message()
+                updateBreedEntity(breedEntity)
+            }
+
+            override fun onFailure(call: Call<BreedImageResponse>, t: Throwable) {
+
+            }
+        })
+    }
+
+
 
     override fun insertBreedEntity(list: List<BreedEntity>) {
         Companion.DaoTask<List<BreedEntity>>(action = {
@@ -32,8 +74,9 @@ class BreedRepository @Inject constructor(application: Application, val breedDao
         return breedDao.getBreedEntityByBreed(breed)
     }
 
-    override fun getBreedList(): LiveData<List<BreedEntity>> {
-        return breedDao.getBreedList()
+
+    override fun getAllPaged(): DataSource.Factory<Int, BreedEntity> {
+        return breedDao.getAllPaged()
     }
 
     override fun flushBreedData() {

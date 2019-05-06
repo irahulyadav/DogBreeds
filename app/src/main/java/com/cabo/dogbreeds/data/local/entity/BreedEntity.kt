@@ -24,6 +24,14 @@ data class BreedEntity(val breed: String) : Parcelable {
         return 0
     }
 
+    override fun hashCode(): Int {
+        return breed.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return hashCode() == other.hashCode()
+    }
+
     companion object CREATOR : Parcelable.Creator<BreedEntity> {
         override fun createFromParcel(parcel: Parcel): BreedEntity {
             return BreedEntity(parcel)

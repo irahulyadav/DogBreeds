@@ -1,6 +1,7 @@
 package com.cabo.dogbreeds.data.local.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
 
@@ -25,8 +26,9 @@ interface BreedDao : BreedProtocol {
     @Query("SELECT * FROM BreedEntity where breed = :breed")
     override fun getBreedEntityByBreed(breed: String): LiveData<BreedEntity>?
 
+
     @Query("SELECT * FROM BreedEntity")
-    override fun getBreedList(): LiveData<List<BreedEntity>>
+    override fun getAllPaged(): DataSource.Factory<Int, BreedEntity>
 
 //    @Query("SELECT * FROM BreedEntity where id = :id")
 //    fun getBreedEntityDetailById(id: Long?): Flowable<BreedEntity>
@@ -47,5 +49,5 @@ interface BreedProtocol {
 
     fun getBreedEntityByBreed(breed: String): LiveData<BreedEntity>?
 
-    fun getBreedList(): LiveData<List<BreedEntity>>
+    fun getAllPaged(): DataSource.Factory<Int, BreedEntity>
 }

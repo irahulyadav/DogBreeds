@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var breedViewModel: BreedViewModel
-    val breedAdapter = BreedAdapter()
+
+    lateinit var breedAdapter: BreedAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         (application as MainApplication).appComponent.inject(this)
         breedViewModel = ViewModelProviders.of(this, viewModelFactory).get(BreedViewModel::class.java)
+        breedAdapter = BreedAdapter(breedViewModel)
 
         with(recycler_view) {
             //layoutManager = LinearLayoutManager(context)
@@ -35,7 +37,8 @@ class MainActivity : AppCompatActivity() {
             adapter = breedAdapter
         }
 
-        breedViewModel.allBreeds.observe(this,
+        breedViewModel.breedLiveData.observe(
+            this,
             Observer<List<BreedEntity>> {
                 breedAdapter.breeds = it
             })

@@ -1,11 +1,10 @@
 package com.cabo.dogbreeds
 
-import com.cabo.dogbreeds.data.local.remote.ApiBuilder
 import com.cabo.dogbreeds.data.local.remote.BreedApiService
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.MockitoAnnotations
+import javax.inject.Inject
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -14,12 +13,17 @@ import org.mockito.MockitoAnnotations
  */
 class ApiUnitTest {
 
+    @Inject
+    lateinit var api: BreedApiService
 
-    val api = ApiBuilder.buildService(BreedApiService::class.java)
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        //MockitoAnnotations.initMocks(this)
         //this.mainViewModel = MainViewModel(this.userService)
+
+        //DaggerTestComponent1
+
+        assert(api != null)
     }
 
     @Test

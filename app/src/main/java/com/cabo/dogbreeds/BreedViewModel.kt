@@ -3,44 +3,31 @@ package com.cabo.dogbreeds
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
-import com.cabo.dogbreeds.data.local.remote.BreedApiResponse
-import com.cabo.dogbreeds.data.local.remote.BreedApiService
 import com.cabo.dogbreeds.repository.BreedRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 import com.cabo.dogbreeds.data.local.dao.BreedProtocol as BreedProtocol1
 
 
 class BreedViewModel @Inject constructor(
     application: Application,
-    val breedApiService: BreedApiService,
+
     val breedRepository: BreedRepository
 ) : AndroidViewModel(application), BreedProtocol1 {
 
 
+    var breedLiveData: LiveData<PagedList<BreedEntity>>
+
     init {
-
-        breedApiService.fetchDogBreeds().enqueue(object : Callback<BreedApiResponse> {
-            override fun onResponse(call: Call<BreedApiResponse>, response: Response<BreedApiResponse>) {
-                val list = arrayListOf<BreedEntity>()
-                response.body()?.message?.forEach { ket, _ ->
-                    list.add(BreedEntity(ket))
-                }
-                insertBreedEntity(list)
-                allBreeds = getBreedList()
-            }
-
-            override fun onFailure(call: Call<BreedApiResponse>, t: Throwable) {
-
-            }
-        })
+        val factory = getAllPaged()
+        breedLiveData = LivePagedListBuilder<Int, BreedEntity>(
+            factory,
+            20
+        ).build()
     }
-
-
-    var allBreeds: LiveData<List<BreedEntity>> = breedRepository.getBreedList()
 
     override fun insertBreedEntity(list: List<BreedEntity>) {
         breedRepository.insertBreedEntity(list)
@@ -62,8 +49,8 @@ class BreedViewModel @Inject constructor(
         return breedRepository.getBreedEntityByBreed(breed)
     }
 
-    override fun getBreedList(): LiveData<List<BreedEntity>> {
-        return breedRepository.getBreedList()
+    override fun getAllPaged(): DataSource.Factory<Int, BreedEntity> {
+        return breedRepository.getAllPaged()
     }
 
     override fun updateBreedEntity(entity: BreedEntity) {
