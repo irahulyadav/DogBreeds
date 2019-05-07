@@ -1,4 +1,4 @@
-package com.cabo.dogbreeds
+package com.cabo.dogbreeds.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.cabo.dogbreeds.R
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
 import com.cabo.dogbreeds.databinding.BreedItemViewBinding
 import com.cabo.dogbreeds.viewmodel.BreedViewModel
@@ -54,16 +55,6 @@ class BreedAdapter(val breedViewModel: BreedViewModel) :
         return breeds[position]
     }
 
-    companion object {
-        @JvmStatic
-        @BindingAdapter("imageUrl")
-        fun setImageUrl(imageView: ImageView, breedEntity: BreedEntity) {
-            Picasso.get()
-                .load(if (breedEntity.image.isNullOrEmpty()) "https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2018/2-dog.jpg" else breedEntity.image)
-                .into(imageView)
-        }
-    }
-
 }
 
 class BreedDiffCallback : DiffUtil.ItemCallback<BreedEntity>() {
@@ -75,4 +66,11 @@ class BreedDiffCallback : DiffUtil.ItemCallback<BreedEntity>() {
     override fun areContentsTheSame(oldItem: BreedEntity, newItem: BreedEntity): Boolean {
         return oldItem == newItem
     }
+}
+
+@BindingAdapter("imageUrl")
+fun ImageView.setImageUrl(imageUrl: String?) {
+    Picasso.get()
+        .load(if (imageUrl.isNullOrEmpty()) "https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2018/2-dog.jpg" else imageUrl)
+        .into(this)
 }

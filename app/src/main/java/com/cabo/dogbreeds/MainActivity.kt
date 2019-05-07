@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cabo.dogbreeds.adapter.BreedAdapter
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
 import com.cabo.dogbreeds.di.ViewModelFactory
 import com.cabo.dogbreeds.viewmodel.BreedViewModel
@@ -46,8 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         breedViewModel.breedLiveData.observe(
-            this,
-            Observer<List<BreedEntity>> {
+            this, Observer<List<BreedEntity>> {
                 breedAdapter.breeds = it
             })
     }

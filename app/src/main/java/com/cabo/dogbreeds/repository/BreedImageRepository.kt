@@ -1,6 +1,5 @@
 package com.cabo.dogbreeds.repository
 
-import androidx.lifecycle.MutableLiveData
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
 import com.cabo.dogbreeds.data.local.remote.BreedApiService
 import com.cabo.dogbreeds.data.local.remote.BreedListApiResponse
@@ -11,9 +10,8 @@ import javax.inject.Inject
 
 class BreedImageRepository @Inject constructor(var breedApiService: BreedApiService) {
 
-    var list: MutableLiveData<List<String>> = MutableLiveData()
 
-    fun fetchBreedImage(breedEntity: BreedEntity, subBreed: String? = null) {
+    fun fetchBreedImage(breedEntity: BreedEntity, subBreed: String? = null, action: (List<String>?) -> Unit) {
 
         val call = if (subBreed.isNullOrBlank())
             breedApiService.fetchDogBreedImages(breedEntity.breed)
@@ -22,7 +20,20 @@ class BreedImageRepository @Inject constructor(var breedApiService: BreedApiServ
 
         call.enqueue(object : Callback<BreedListApiResponse> {
             override fun onResponse(call: Call<BreedListApiResponse>, response: Response<BreedListApiResponse>) {
-                list.value = response.body()?.message ?: arrayListOf()
+                action(response.body()?.message ?: arrayListOf())
+            }
+
+            override fun onFailure(call: Call<BreedListApiResponse>, t: Throwable) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+    }
+
+    fun fetchSubBreeds(breedEntity: BreedEntity, action: (List<String>?) -> Unit) {
+        breedApiService.fetchDogSubBreeds(breedEntity.breed)
+            .enqueue(object : Callback<BreedListApiResponse> {
+                override fun onResponse(call: Call<BreedListApiResponse>, response: Response<BreedListApiResponse>) {
+                    action(response.body()?.message ?: arrayListOf())
             }
 
             override fun onFailure(call: Call<BreedListApiResponse>, t: Throwable) {
