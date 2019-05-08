@@ -15,18 +15,19 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class BreedRepository @Inject constructor(
-    val breedDao: BreedDao,
-    val breedApiService: BreedApiService
-) : BreedProtocol {
-
+    val breedDao: BreedDao, val breedApiService: BreedApiService
+) : BreedProtocol, ImageLoadListener {
 
     init {
 
         breedApiService.fetchDogBreeds().enqueue(object : Callback<BreedApiResponse> {
             override fun onResponse(call: Call<BreedApiResponse>, response: Response<BreedApiResponse>) {
                 val list = arrayListOf<BreedEntity>()
-                response.body()?.message?.forEach { ket, _ ->
-                    list.add(BreedEntity(ket))
+                response.body()?.message?.forEach { breed, _ ->
+                    if (getBreedEntityByBreed(breed) == null) {
+                        list.add(BreedEntity(breed))
+                    }
+
                 }
                 insertBreedEntity(list)
             }
@@ -37,15 +38,18 @@ class BreedRepository @Inject constructor(
         })
     }
 
-    fun loadBreedImage(breedEntity: BreedEntity) {
+    override fun loadBreedImage(breedEntity: BreedEntity) {
         breedApiService.fetchBreedImage(breedEntity.breed).enqueue(object : Callback<BreedImageResponse> {
             override fun onResponse(call: Call<BreedImageResponse>, response: Response<BreedImageResponse>) {
-                breedEntity.image = response.message()
+                if (response.body()?.message.isNullOrBlank()) {
+                    throw Exception("Image not found")
+                }
+                breedEntity.image = response.body()?.message
                 updateBreedEntity(breedEntity)
             }
 
             override fun onFailure(call: Call<BreedImageResponse>, t: Throwable) {
-
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
     }
@@ -97,4 +101,8 @@ class BreedRepository @Inject constructor(
         }
     }
 
+}
+
+interface ImageLoadListener {
+    fun loadBreedImage(breedEntity: BreedEntity)
 }

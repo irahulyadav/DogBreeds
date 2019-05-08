@@ -10,19 +10,15 @@ import androidx.recyclerview.widget.DiffUtil
 import com.cabo.dogbreeds.R
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
 import com.cabo.dogbreeds.databinding.BreedItemViewBinding
-import com.cabo.dogbreeds.viewmodel.BreedViewModel
+import com.cabo.dogbreeds.repository.ImageLoadListener
 import com.cabo.dogbreeds.widget.BindingViewHolder
 import com.squareup.picasso.Picasso
 
 
-class BreedAdapter(val breedViewModel: BreedViewModel) :
-    PagedListAdapter<BreedEntity, BindingViewHolder<BreedItemViewBinding>>(BreedDiffCallback()) {
+class BreedAdapter() : PagedListAdapter<BreedEntity, BindingViewHolder<BreedItemViewBinding>>(BreedDiffCallback()) {
 
-    var breeds: List<BreedEntity> = arrayListOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    var imageLoadListener: ImageLoadListener? = null
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder<BreedItemViewBinding> {
@@ -36,26 +32,22 @@ class BreedAdapter(val breedViewModel: BreedViewModel) :
         )
     }
 
-    override fun onBindViewHolder(holder: BindingViewHolder<BreedItemViewBinding>, position: Int) {
-        val breed = getItemCount(position)
-        holder.binding.breed = breed
+    fun get(position: Int): BreedEntity {
+        return getItem(position)!!
     }
 
-    fun loadBreedImage(breedEntity: BreedEntity) {
-        if (breedEntity.image.isNullOrEmpty()) {
-            breedViewModel.breedRepository.loadBreedImage(breedEntity)
+    override fun onBindViewHolder(holder: BindingViewHolder<BreedItemViewBinding>, position: Int) {
+        val breed = getItem(position) ?: return
+        holder.binding.breed = breed
+
+        if (breed.image.isNullOrEmpty() && imageLoadListener != null) {
+            imageLoadListener?.loadBreedImage(breed)
         }
     }
 
-    override fun getItemCount(): Int {
-        return breeds.count()
-    }
-
-    fun getItemCount(position: Int): BreedEntity {
-        return breeds[position]
-    }
-
 }
+
+
 
 class BreedDiffCallback : DiffUtil.ItemCallback<BreedEntity>() {
 

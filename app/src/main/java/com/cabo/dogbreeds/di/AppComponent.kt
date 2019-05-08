@@ -1,6 +1,7 @@
 package com.cabo.dogbreeds.di
 
 
+import com.cabo.dogbreeds.FilterListActivity
 import com.cabo.dogbreeds.ImageListActivity
 import com.cabo.dogbreeds.MainActivity
 import com.cabo.dogbreeds.MainApplication
@@ -16,6 +17,8 @@ interface AppComponent {
     fun inject(activity: ImageListActivity)
 
     fun inject(application: MainApplication)
+
+    fun inject(application: FilterListActivity)
 
     // fun breedRepository(): BreedRepository
 

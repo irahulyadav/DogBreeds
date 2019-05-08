@@ -9,14 +9,6 @@
         tools:showIn="@layout/activity_main"
         tools:context=".MainActivity">
 
-    <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lottie_fileName="1625-anubis.json"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true"/>
-
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"

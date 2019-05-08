@@ -24,7 +24,7 @@ class BreedImageRepository @Inject constructor(var breedApiService: BreedApiServ
             }
 
             override fun onFailure(call: Call<BreedListApiResponse>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
     }
@@ -37,7 +37,7 @@ class BreedImageRepository @Inject constructor(var breedApiService: BreedApiServ
             }
 
             override fun onFailure(call: Call<BreedListApiResponse>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
     }

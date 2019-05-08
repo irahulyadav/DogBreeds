@@ -2,10 +2,12 @@ package com.cabo.dogbreeds
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
@@ -34,8 +36,13 @@ class ImageListActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.image_list_activity)
         (application as MainApplication).appComponent.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ImageListViewModel::class.java)
-        viewModel.breedEntity = intent.getParcelableExtra("breed") as BreedEntity
-        title = viewModel.breedEntity?.breed?.toUpperCase()
+        viewModel.breedEntity = intent.getParcelableExtra("BreedEntity") as BreedEntity
+        supportActionBar?.title = viewModel.breedEntity?.breed?.toUpperCase()
+
+
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_SHOW_TITLE
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         with(binding.recyclerView) {
             layoutManager = GridLayoutManager(this@ImageListActivity, 2)
@@ -78,6 +85,13 @@ class ImageListActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
