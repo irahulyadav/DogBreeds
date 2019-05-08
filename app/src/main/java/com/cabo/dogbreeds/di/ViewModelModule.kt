@@ -3,6 +3,7 @@ package com.cabo.dogbreeds.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.an.trailers.di.module.ViewModelKey
+import com.cabo.dogbreeds.viewmodel.BreedFilterViewModel
 import com.cabo.dogbreeds.viewmodel.BreedViewModel
 import com.cabo.dogbreeds.viewmodel.ImageListViewModel
 import dagger.Binds
@@ -25,6 +26,11 @@ internal abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ImageListViewModel::class)
     protected abstract fun imageListViewModel(imageListViewModel: ImageListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BreedFilterViewModel::class)
+    protected abstract fun breedFilterViewModel(imageListViewModel: BreedFilterViewModel): ViewModel
 
 
 }

@@ -30,8 +30,12 @@ interface BreedDao : BreedProtocol {
     @Query("SELECT * FROM BreedEntity")
     override fun getAllPaged(): DataSource.Factory<Int, BreedEntity>
 
-//    @Query("SELECT * FROM BreedEntity where id = :id")
-//    fun getBreedEntityDetailById(id: Long?): Flowable<BreedEntity>
+    @Query("SELECT * FROM BreedEntity")
+    override fun getList(): LiveData<List<BreedEntity>>
+
+    @Query("SELECT * FROM BreedEntity where breed LIKE '%' || :query || '%'")
+    override fun search(query: String): LiveData<List<BreedEntity>>
+
 
 }
 
@@ -50,4 +54,8 @@ interface BreedProtocol {
     fun getBreedEntityByBreed(breed: String): LiveData<BreedEntity>?
 
     fun getAllPaged(): DataSource.Factory<Int, BreedEntity>
+
+    fun getList(): LiveData<List<BreedEntity>>
+
+    fun search(query: String): LiveData<List<BreedEntity>>
 }

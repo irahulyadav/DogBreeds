@@ -49,7 +49,7 @@ class BreedRepository @Inject constructor(
             }
 
             override fun onFailure(call: Call<BreedImageResponse>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
     }
@@ -88,6 +88,14 @@ class BreedRepository @Inject constructor(
 
     override fun getBreedCount(): Int {
         return breedDao.getBreedCount()
+    }
+
+    override fun getList(): LiveData<List<BreedEntity>> {
+        return breedDao.getList()
+    }
+
+    override fun search(query: String): LiveData<List<BreedEntity>> {
+        return breedDao.search(query)
     }
 
     companion object {
