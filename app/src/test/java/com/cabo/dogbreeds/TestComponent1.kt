@@ -11,6 +11,4 @@ interface TestComponent1 {
 
     fun poke(activity: ApiUnitTest)
 
-    fun poke(activity: MokeTest)
-
 }
