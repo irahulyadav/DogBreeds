@@ -39,14 +39,16 @@ class BreedRepository @Inject constructor(
         })
     }
 
-    override fun loadBreedImage(breedEntity: BreedEntity) {
-        breedApiService.fetchBreedImage(breedEntity.breed).enqueue(object : Callback<BreedImageResponse> {
+    override fun loadBreedImage(breedEntity: BreedEntity, updateImage: () -> Unit) {
+        breedApiService
+            .fetchBreedImage(breedEntity.breed).enqueue(object : Callback<BreedImageResponse> {
             override fun onResponse(call: Call<BreedImageResponse>, response: Response<BreedImageResponse>) {
                 if (response.body()?.message.isNullOrBlank()) {
                     throw Exception("Image not found")
                 }
                 breedEntity.image = response.body()?.message
                 updateBreedEntity(breedEntity)
+                updateImage()
             }
 
             override fun onFailure(call: Call<BreedImageResponse>, t: Throwable) {
@@ -112,5 +114,5 @@ class BreedRepository @Inject constructor(
 }
 
 interface ImageLoadListener {
-    fun loadBreedImage(breedEntity: BreedEntity)
+    fun loadBreedImage(breedEntity: BreedEntity, updateImage: () -> Unit)
 }

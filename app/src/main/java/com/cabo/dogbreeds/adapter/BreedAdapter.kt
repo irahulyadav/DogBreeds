@@ -39,9 +39,11 @@ class BreedAdapter() : PagedListAdapter<BreedEntity, BindingViewHolder<BreedItem
     override fun onBindViewHolder(holder: BindingViewHolder<BreedItemViewBinding>, position: Int) {
         val breed = getItem(position) ?: return
         holder.binding.breed = breed
-
+        print(position)
         if (breed.image.isNullOrEmpty() && imageLoadListener != null) {
-            imageLoadListener?.loadBreedImage(breed)
+            imageLoadListener?.loadBreedImage(breed) {
+                holder.binding.ivImage.setImageUrl(breed.image)
+            }
         }
     }
 
