@@ -19,8 +19,6 @@ class BreedAdapter() : PagedListAdapter<BreedEntity, BindingViewHolder<BreedItem
 
     var imageLoadListener: ImageLoadListener? = null
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder<BreedItemViewBinding> {
         return BindingViewHolder(
             DataBindingUtil.inflate<BreedItemViewBinding>(

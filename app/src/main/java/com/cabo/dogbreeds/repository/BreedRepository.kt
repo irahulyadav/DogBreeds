@@ -34,7 +34,7 @@ class BreedRepository @Inject constructor(
             }
 
             override fun onFailure(call: Call<BreedApiResponse>, t: Throwable) {
-
+                // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
     }

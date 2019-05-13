@@ -20,6 +20,4 @@ interface AppComponent {
 
     fun inject(application: FilterListActivity)
 
-    // fun breedRepository(): BreedRepository
-
 }

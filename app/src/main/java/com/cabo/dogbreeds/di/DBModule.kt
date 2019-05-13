@@ -14,13 +14,13 @@ class DBModule {
 
     @Provides
     @Singleton
-    internal fun provideDatabase(application: Application): BreedsDatabase {
+    fun provideDatabase(application: Application): BreedsDatabase {
         return BreedsDatabase.getInstance(application)!!
     }
 
     @Provides
     @Singleton
-    internal fun provideMovieDao(appDatabase: BreedsDatabase): BreedDao {
+    fun provideMovieDao(appDatabase: BreedsDatabase): BreedDao {
         return appDatabase.breedDao()
     }
 
