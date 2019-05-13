@@ -22,14 +22,15 @@ class BreedRepository @Inject constructor(
 
         breedApiService.fetchDogBreeds().enqueue(object : Callback<BreedApiResponse> {
             override fun onResponse(call: Call<BreedApiResponse>, response: Response<BreedApiResponse>) {
-                val list = arrayListOf<BreedEntity>()
-                response.body()?.message?.forEach { breed, _ ->
-                    if (getBreedEntityByBreed(breed) == null) {
-                        list.add(BreedEntity(breed))
+                Companion.DaoTask<BreedEntity> {
+                    val list = arrayListOf<BreedEntity>()
+                    response.body()?.message?.forEach { breed, _ ->
+                        if (getBreedEntityByBreed(breed) == null) {
+                            list.add(BreedEntity(breed))
+                        }
                     }
-
-                }
-                insertBreedEntity(list)
+                    breedDao.insertBreedEntity(list)
+                }.execute()
             }
 
             override fun onFailure(call: Call<BreedApiResponse>, t: Throwable) {
@@ -73,7 +74,7 @@ class BreedRepository @Inject constructor(
         }).execute(entity)
     }
 
-    override fun getBreedEntityByBreed(breed: String): LiveData<BreedEntity>? {
+    override fun getBreedEntityByBreed(breed: String): BreedEntity? {
         return breedDao.getBreedEntityByBreed(breed)
     }
 
@@ -101,7 +102,6 @@ class BreedRepository @Inject constructor(
     companion object {
 
         class DaoTask<T>(val action: (T?) -> Unit) : AsyncTask<T, Void, Void?>() {
-
             override fun doInBackground(vararg params: T?): Void? {
                 action(params.firstOrNull())
                 return null

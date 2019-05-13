@@ -20,14 +20,13 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    val x: Int? = lazy { null }.value
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var breedViewModel: BreedViewModel
 
-    val breedAdapter: BreedAdapter = BreedAdapter()
+    private val breedAdapter = BreedAdapter()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -24,7 +24,7 @@ interface BreedDao : BreedProtocol {
     override fun getBreedCount(): Int
 
     @Query("SELECT * FROM BreedEntity where breed = :breed")
-    override fun getBreedEntityByBreed(breed: String): LiveData<BreedEntity>?
+    override fun getBreedEntityByBreed(breed: String): BreedEntity?
 
 
     @Query("SELECT * FROM BreedEntity")
@@ -51,7 +51,7 @@ interface BreedProtocol {
 
     fun getBreedCount(): Int
 
-    fun getBreedEntityByBreed(breed: String): LiveData<BreedEntity>?
+    fun getBreedEntityByBreed(breed: String): BreedEntity?
 
     fun getAllPaged(): DataSource.Factory<Int, BreedEntity>
 
