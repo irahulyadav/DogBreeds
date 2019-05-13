@@ -1,18 +1,17 @@
 package com.cabo.dogbreeds.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
 import com.cabo.dogbreeds.repository.BreedRepository
 import javax.inject.Inject
 import com.cabo.dogbreeds.data.local.dao.BreedProtocol as BreedProtocol1
 
 
-class BreedFilterViewModel @Inject constructor(application: Application, private val breedRepository: BreedRepository) :
-    AndroidViewModel(application) {
+class BreedFilterViewModel @Inject constructor(private val breedRepository: BreedRepository) :
+    ViewModel() {
 
     private val query = MutableLiveData<String>()
 

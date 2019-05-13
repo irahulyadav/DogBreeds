@@ -1,8 +1,7 @@
 package com.cabo.dogbreeds.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.cabo.dogbreeds.data.local.entity.BreedEntity
@@ -11,8 +10,8 @@ import javax.inject.Inject
 import com.cabo.dogbreeds.data.local.dao.BreedProtocol as BreedProtocol1
 
 
-class BreedViewModel @Inject constructor(application: Application, val breedRepository: BreedRepository) :
-    AndroidViewModel(application) {
+class BreedViewModel @Inject constructor(val breedRepository: BreedRepository) :
+    ViewModel() {
 
 
     val breedLiveData: LiveData<PagedList<BreedEntity>>
@@ -21,7 +20,6 @@ class BreedViewModel @Inject constructor(application: Application, val breedRepo
 
     init {
         val factory = breedRepository.getAllPaged()
-
 
         val pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(true)
