@@ -25,6 +25,8 @@
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
+                    tools:listitem="@layout/image_item_view"
+                    tools:itemCount="2"
                     android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>

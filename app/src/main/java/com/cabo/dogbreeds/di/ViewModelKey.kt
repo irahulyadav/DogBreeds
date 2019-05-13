@@ -1,4 +1,4 @@
-package com.an.trailers.di.module
+package com.cabo.dogbreeds.di
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

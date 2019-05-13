@@ -20,12 +20,14 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    val x: Int? = lazy { null }.value
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var breedViewModel: BreedViewModel
 
-    lateinit var breedAdapter: BreedAdapter
+    val breedAdapter: BreedAdapter = BreedAdapter()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         (application as MainApplication).appComponent.inject(this)
         breedViewModel = ViewModelProviders.of(this, viewModelFactory).get(BreedViewModel::class.java)
-        breedAdapter = BreedAdapter()
 
         breedAdapter.imageLoadListener = breedViewModel.breedRepository
 
