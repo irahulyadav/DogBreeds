@@ -40,7 +40,9 @@ class BreedAdapter() : PagedListAdapter<BreedEntity, BindingViewHolder<BreedItem
         print(position)
         if (breed.image.isNullOrEmpty() && imageLoadListener != null) {
             imageLoadListener?.loadBreedImage(breed) {
-                holder.binding.ivImage.setImageUrl(breed.image)
+                if (breed == holder.binding.breed) {
+                    holder.binding.ivImage.setImageUrl(breed.image)
+                }
             }
         }
     }
